@@ -49,7 +49,7 @@
                                             <img src="{{ asset($item->image) }}" alt="image" width="60" height="60" class="img img-responsive rounded-circle "/>
 
                                         </td>
-                                        <td>{{ $item->category }}</td>
+                                        <td>{{ $item->image }}</td>
                                         <td>{{ $item->dish }}</td>
                                         <td>{{ $item->price }}</td>
                                         <td>

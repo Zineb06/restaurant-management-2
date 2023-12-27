@@ -1,0 +1,83 @@
+/* Header.css */
+
+/* Navbar Container */
+.Nav {
+  background: rgba(12, 11, 9, 0.6);
+  border-bottom: 1px solid rgba(12, 11, 9, 0.6);
+  transition: all 0.5s;
+  z-index: 997;
+  padding: 15px 0;
+  top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Navbar Links */
+.Nav .nav-link {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  margin-right: 20px;
+  transition: color 0.3s ease;
+}
+
+.Nav .nav-link:hover {
+  color: #ff8c00; /* Couleur au survol */
+}
+
+/* Navbar Logout Button */
+.Nav .logout-btn {
+  background-color: #ff8c00;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Nav .logout-btn:hover {
+  background-color: #fff;
+  color: #ff8c00;
+}
+
+/* Navbar Scrolled */
+.Nav.header-scrolled {
+  top: 0;
+  background: rgba(0, 0, 0, 0.85);
+  border-bottom: 1px solid #37332a;
+}
+
+/* Navbar Logo Styling */
+.Nav .logo {
+  font-size: 28px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+
+/* Navbar Logo Image Styling */
+.Nav .logo img {
+  max-height: 40px;
+}
+
+/* Responsive Styling (Optional) */
+@media screen and (max-width: 768px) {
+  .Nav {
+    padding: 10px 0;
+  }
+
+  .Nav .nav-link {
+    margin-right: 10px;
+  }
+
+  .Nav .logo {
+    font-size: 24px;
+  }
+}

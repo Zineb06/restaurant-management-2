@@ -18,14 +18,14 @@ function Navbar() {
           <Link to="/"> Home </Link>
           <Link to="/menu"> Menu </Link>
           <Link to="/login"> Login </Link>
-          <Link to="/reservationForm"> Make Reservation </Link>
+          {/* <Link to="/reservationForm"> Make Reservation </Link> */}
         </div>
       </div>
       <div className="rightSide">
         <Link to="/"> Home </Link>
         <Link to="/menu"> Menu </Link>
         <Link to="/login"> Login </Link>
-        <Link to="/reservationForm"> Make Reservation </Link>
+        {/* <Link to="/reservationForm"> Make Reservation </Link> */}
         <button onClick={toggleNavbar}>
           <ReorderIcon />
         </button>

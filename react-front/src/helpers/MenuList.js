@@ -9,31 +9,31 @@ export const MenuList = [
   {
     name: "Pepperoni Pizza",
     image: Pepperoni,
-    price: 15.99,
+    price: 50.00,
   },
   {
     name: "Margherita Pizza",
     image: Margherita,
-    price: 11.99,
+    price: 40.00,
   },
   {
-    name: "PedroTech Special Pizza",
+    name: "Pizza Palace Special Pizza",
     image: PedroTechSpecial,
-    price: 256.53,
+    price: 120.00,
   },
   {
     name: "Vegan Pizza",
     image: Vegan,
-    price: 17.99,
+    price: 35.00,
   },
   {
     name: "Pineapple Pizza",
     image: Pineapple,
-    price: 4.99,
+    price: 45.00,
   },
   {
-    name: "Very Expensive Pizza",
+    name: "Seafood Pizza",
     image: Expensive,
-    price: 1997.99,
+    price: 99.97,
   },
 ];

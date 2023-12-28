@@ -28,6 +28,8 @@
        <button><a href="{{ url('admin') }}">Admin Space</a></button>
        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
        <button><a href="{{ url('client') }}">Client Space </a></button>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <button><a href="{{ url('reservationForm') }}"> Make Reservation </a></button>
         </center>
        
     </body>

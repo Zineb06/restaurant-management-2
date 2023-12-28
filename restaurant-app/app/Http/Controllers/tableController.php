@@ -1,55 +1,116 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\RedirectResponse;
+
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Models\table;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Validator;
 
 class tableController extends Controller
 {
-    public function index() : View 
+    public function index()
     {
-        $table = table::all();
-        return view('tables.index')-> with ('table', $table);
+        $tables = table::all();
+
+        return response()->json([
+            'tables' => $tables
+        ], 200);
     }
 
-    public function create(): View
+    public function store(Request $request)
     {
-        return view('tables.create');
-    }
-  
-    public function store(Request $request): RedirectResponse
-    {
-        $input = $request->all();
-        table::create($input);
-        return redirect('tables')->with('add_message', 'Table Addedd!');
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'idTable'=>'required',
+            'location' => 'required',
+            'guests' => 'required|integer|min:1',
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            // Create Table
+            Table::create([
+                'idTable' =>$request->idTable,
+                'location' => $request->location,
+                'guests' => $request->guests,
+            ]);
+
+            return response()->json([
+                'message' => 'Table successfully created.'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Something went really wrong!'
+            ], 500);
+        }
     }
-    public function show(string $id): View
+
+    public function show($id)
+    {
+        $table = Table::find($id);
+        if (!$table) {
+            return response()->json([
+                'message' => 'Table Not Found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'table' => $table
+        ], 200);
+    }
+    public function update(Request $request, $id)
+{
+    try {
+        $table = Table::find($id);
+        if (!$table) {
+            return response()->json([
+                'message' => 'Table Not Found.'
+            ], 404);
+        }
+
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            //'idTable' => 'required',
+            'location' => 'required',
+            'guests' => 'required|integer|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        //$table->idTable = $request->idTable;
+        $table->location = $request->location;
+        $table->guests = $request->guests;
+
+        $table->save();
+
+        return response()->json([
+            'message' => 'Table successfully updated.'
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Something went really wrong!'
+        ], 500);
+    }
+}
+
+    public function destroy($id)
     {
         $table = table::find($id);
-        return view('tables.show')->with('table', $table);
-    }
+        $table->delete();
 
-    public function edit(string $id): View
-    {
-        $table = table::find($id);
-        return view('tables.edit')->with('table', $table);
+        return response()->json([
+            'message' => 'Table successfully deleted.'
+        ], 200);
     }
-    public function update(Request $request, string $id): RedirectResponse
-    {
-        $table = table::find($id);
-        $input = $request->all();
-        $table->update($input);
-        return redirect('tables')->with('update_message', 'table Updated!');  
-    }
-    
-    public function destroy(string $id): RedirectResponse
-    {
-        table::destroy($id);
-        return redirect('tables')->with('delete_message', 'table deleted!'); 
-    }
-
 }

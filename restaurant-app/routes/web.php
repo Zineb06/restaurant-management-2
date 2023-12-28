@@ -10,6 +10,7 @@ use App\Http\Controllers\menuController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Client\theClientController;
 use App\Http\Controllers\tableController;
+use App\Http\Controllers\reservationFormController;
 
 // use Illuminate\Support\Facades\URL;
 // URL::forceScheme('https');
@@ -26,6 +27,9 @@ Route::resource('menus', menuController::class);
 Route::resource('admin', AdminController::class);
 Route::resource('client', theClientController::class);
 Route::resource('tables', tableController::class);
+Route::resource('reservationForm', reservationFormController::class);
+
+
 
 // link of react app : 
 Route::get('/{path?}', function () {

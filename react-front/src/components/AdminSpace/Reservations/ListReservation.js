@@ -12,6 +12,7 @@ const ListReservation = () => {
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     // Fetch reservations data from API
@@ -103,8 +104,28 @@ const ListReservation = () => {
     setShowViewModal(false);
   };
 
+  const filteredReservations = reservations.filter(reservation =>
+    Object.values(reservation).some(value =>
+      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
+
   return (
     <div className="container ml-5 pl-5">
+      <div className="mb-3">
+        <label htmlFor="search" className="form-label">
+          Search:
+        </label>
+        <input
+          type="text"
+          id="search"
+          className="form-control"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search reservations..."
+        />
+      </div>
+
       <div className="row">
         <div className="col-12">
           <div className="card">
@@ -129,7 +150,7 @@ const ListReservation = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {reservations.map((reservation, index) => (
+                  {filteredReservations.map((reservation, index) => (
                     <tr key={index}>
                       <td>{reservation.idReservation}</td>
                       <td>{reservation.idClient}</td>
@@ -189,45 +210,42 @@ const ListReservation = () => {
           <Modal.Title>View Reservation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <React.Fragment>
-          <section className="text-center" style={{ backgroundColor: '#f4f5f7' }}>
+          <React.Fragment>
+            <section className="text-center" style={{ backgroundColor: '#f4f5f7' }}>
 
-          <div className="col-6 mb-3 mx-auto text-center">
-            <h6>ID Reservation:</h6>
-            <p className="text-muted">{selectedReservation?.idReservation}</p>
-          </div>
+              <div className="col-6 mb-3 mx-auto text-center">
+                <h6>ID Reservation:</h6>
+                <p className="text-muted">{selectedReservation?.idReservation}</p>
+              </div>
 
-
-           <div className="row pt-1">
-             
-              <div className="col-6 mb-3">
-                <h6>Client:</h6>
-                <p className="text-muted">{selectedReservation?.idClient}</p>
+              <div className="row pt-1">
+                <div className="col-6 mb-3">
+                  <h6>Client:</h6>
+                  <p className="text-muted">{selectedReservation?.idClient}</p>
+                </div>
+                <div className="col-6 mb-3">
+                  <h6>Table Number:</h6>
+                  <p className="text-muted">{selectedReservation?.NumTable}</p>
+                </div>
+                <div className="col-6 mb-3">
+                  <h6>Date:</h6>
+                  <p className="text-muted">{selectedReservation?.date}</p>
+                </div>
+                <div className="col-6 mb-3">
+                  <h6>Time:</h6>
+                  <p className="text-muted">{selectedReservation?.time}</p>
+                </div>
+                <div className="col-6 mb-3">
+                  <h6>Guests Number:</h6>
+                  <p className="text-muted">{selectedReservation?.GuestsNumber}</p>
+                </div>
+                <div className="col-6 mb-3">
+                  <h6>Status:</h6>
+                  <p className="text-muted">{selectedReservation?.Status}</p>
+                </div>
               </div>
-              <div className="col-6 mb-3">
-                <h6>Table Number:</h6>
-                <p className="text-muted">{selectedReservation?.NumTable}</p>
-              </div>
-              <div className="col-6 mb-3">
-                <h6>Date:</h6>
-                <p className="text-muted">{selectedReservation?.date}</p>
-              </div>
-              <div className="col-6 mb-3">
-                <h6>Time:</h6>
-                <p className="text-muted">{selectedReservation?.time}</p>
-              </div>
-              <div className="col-6 mb-3">
-                <h6>Guests Number:</h6>
-                <p className="text-muted">{selectedReservation?.GuestsNumber}</p>
-              </div>
-              <div className="col-6 mb-3">
-                <h6>Status:</h6>
-                <p className="text-muted">{selectedReservation?.Status}</p>
-              </div>
-            </div>  
-          </section>
-        </React.Fragment>
-         
+            </section>
+          </React.Fragment>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseViewModal}>

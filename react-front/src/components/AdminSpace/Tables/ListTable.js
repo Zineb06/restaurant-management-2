@@ -12,19 +12,12 @@ const ListTable = () => {
   const [selectedTable, setSelectedTable] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     // Fetch tables data from API
-    fetch('http://127.0.0.1:8000/api/tables')
-      .then(response => response.json())
-      .then(data => setTables(data.tables))
-      .catch(error => console.error('Error fetching tables from API', error));
+    fetchTables();
   }, []);
-
-  const handleDelete = (table) => {
-    setSelectedTable(table);
-    setShowDeleteModal(true);
-  };
 
   const fetchTables = async () => {
     try {
@@ -34,6 +27,11 @@ const ListTable = () => {
     } catch (error) {
       console.error('Error fetching tables from API', error);
     }
+  };
+
+  const handleDelete = (table) => {
+    setSelectedTable(table);
+    setShowDeleteModal(true);
   };
 
   const handleConfirmDelete = async () => {
@@ -78,11 +76,6 @@ const ListTable = () => {
     setShowViewModal(true);
   };
 
-  useEffect(() => {
-    // Call the fetchTables function when the component loads
-    fetchTables();
-  }, []);
-
   const handleCloseDeleteModal = () => {
     setShowDeleteModal(false);
   };
@@ -103,8 +96,29 @@ const ListTable = () => {
     setShowViewModal(false);
   };
 
+  const filteredTables = tables.filter(
+    (table) =>
+      table.idTable.toString().includes(searchTerm.toLowerCase()) ||
+      table.location.toLowerCase().includes(searchTerm.toLowerCase()) 
+      
+  );
+
   return (
     <div className="container ml-5 pl-5">
+      <div className="row mb-3">
+        <label htmlFor="search" className="form-label">
+          Search by ID, Location:
+        </label>
+        <input
+          type="text"
+          id="search"
+          className="form-control"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search..."
+        />
+      </div>
+
       <div className="row">
         <div className="col-12">
           <div className="card">
@@ -125,7 +139,7 @@ const ListTable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tables.map((table, index) => (
+                  {filteredTables.map((table, index) => (
                     <tr key={index}>
                       <td>{table.idTable}</td>
                       <td>{table.location}</td>

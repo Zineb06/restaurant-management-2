@@ -41,6 +41,12 @@ class MenuController extends Controller
 
         Menu::create($requestData);
 
+        // $requestData = $request->all();
+        // $fileName = $request->file('image')->getClientOriginalName();
+        // $path = $request->file('image')->storeAs('public/images', $fileName);
+        // $requestData['image'] = '/storage/images/'.$fileName;
+        // Menu::create($requestData);
+
         return response()->json(['message' => 'Menu added successfully'], 201);
     }
 

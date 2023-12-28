@@ -11,6 +11,7 @@ const ListClient = () => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     // Fetch clients data from API
@@ -94,8 +95,29 @@ const ListClient = () => {
     setShowViewModal(false);
   };
 
+  const filteredClients = clients.filter(
+    (client) =>
+      client.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container ml-5 pl-5">
+      <div className="row mb-3">
+        
+          <label htmlFor="search" className="form-label">
+            Search:
+          </label>
+          <input
+            type="text"
+            id="search"
+            className="form-control"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search by name or last name..."
+          />
+      </div>
+
       <div className="row">
         <div className="col-12">
           <div className="card">
@@ -119,7 +141,7 @@ const ListClient = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {clients.map((client) => (
+                  {filteredClients.map((client) => (
                     <tr key={client.id}>
                       <td>{client.id}</td>
                       <td>{client.nom}</td>
@@ -165,47 +187,47 @@ const ListClient = () => {
         handleClose={handleCloseDeleteModal}
         handleConfirm={handleConfirmDelete}
       />
-      
+
       {/* View Client Modal */}
       <Modal show={showViewModal} onHide={handleCloseViewModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>View Client</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <React.Fragment>
-          <section className="text-center" style={{ backgroundColor: '#f4f5f7' }}>
-            <div className="col-md-4 mx-auto gradient-custom text-white" style={{ borderRadius: '.5rem' }}>
-              <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                alt="Avatar"
-                className="my-5"
-                style={{ width: '100px' }}
-              />
-            </div>
-            <div className="row pt-1">
-              <div className="col-6 mb-3">
-                <h6>Last Name</h6>
-                <p className="text-muted">{selectedClient?.prenom}</p>
+          <React.Fragment>
+            <section className="text-center" style={{ backgroundColor: '#f4f5f7' }}>
+              <div className="col-md-4 mx-auto gradient-custom text-white" style={{ borderRadius: '.5rem' }}>
+                <img
+                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                  alt="Avatar"
+                  className="my-5"
+                  style={{ width: '100px' }}
+                />
               </div>
-              <div className="col-6 mb-3">
-                <h6>First Name</h6>
-                <p className="text-muted">{selectedClient?.nom}</p>
+              <div className="row pt-1">
+                <div className="col-6 mb-3">
+                  <h6>Last Name</h6>
+                  <p className="text-muted">{selectedClient?.prenom}</p>
+                </div>
+                <div className="col-6 mb-3">
+                  <h6>First Name</h6>
+                  <p className="text-muted">{selectedClient?.nom}</p>
+                </div>
+                <div className="col-6 mb-3">
+                  <h6>Email</h6>
+                  <p className="text-muted">{selectedClient?.email}</p>
+                </div>
+                <div className="col-6 mb-3">
+                  <h6>CIN</h6>
+                  <p className="text-muted">{selectedClient?.cin}</p>
+                </div>
+                <div className="col-6 mb-3">
+                  <h6>Phone</h6>
+                  <p className="text-muted">{selectedClient?.phone}</p>
+                </div>
               </div>
-              <div className="col-6 mb-3">
-                <h6>Email</h6>
-                <p className="text-muted">{selectedClient?.email}</p>
-              </div>
-              <div className="col-6 mb-3">
-                <h6>CIN</h6>
-                <p className="text-muted">{selectedClient?.cin}</p>
-              </div>
-              <div className="col-6 mb-3">
-                <h6>Phone</h6>
-                <p className="text-muted">{selectedClient?.phone}</p>
-              </div>
-            </div>
-          </section>
-        </React.Fragment>
+            </section>
+          </React.Fragment>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseViewModal}>
@@ -213,8 +235,8 @@ const ListClient = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-       {/* Edit Client Modal */}
-       <EditClient
+      {/* Edit Client Modal */}
+      <EditClient
         show={showEditModal}
         handleClose={handleCloseEditModal}
         client={selectedClient}
